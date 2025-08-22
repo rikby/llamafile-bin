@@ -4,7 +4,8 @@
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
+BLUE='\033[0;94m'
+WHITE='\033[1;37m'
 NC='\033[0m' # No Color
 
 # Function to show error and exit
@@ -80,15 +81,15 @@ ln -s "$LLAMAFILE_SCRIPT" "$SYMLINK_PATH" || show_error "Failed to create symlin
 
 show_success "Successfully installed llamafile script!"
 echo
-show_info "Configuration directory: $LLAMAFILE_CONFIG_DIR"
-show_info "Models directory: $MODELS_DIR"
-show_info "Symlink created: $SYMLINK_PATH -> $LLAMAFILE_SCRIPT"
+echo -e "Configuration directory: ${YELLOW}$LLAMAFILE_CONFIG_DIR${NC}"
+echo -e "Models directory: ${YELLOW}$MODELS_DIR${NC}"
+echo -e "Symlink created: ${YELLOW}$SYMLINK_PATH${NC} -> ${YELLOW}$LLAMAFILE_SCRIPT${NC}"
 echo
 echo -e "${YELLOW}Note: Make sure $BIN_DIR is in your PATH environment variable.${NC}"
 echo -e "${YELLOW}You can add this line to your ~/.bashrc or ~/.zshrc:${NC}"
-echo -e "${YELLOW}export PATH=\"\$HOME/bin:\$PATH\"${NC}"
+echo -e "${WHITE}export PATH=\"\$HOME/bin:\$PATH\"${NC}"
 echo
-show_info "Usage: llamafile [pattern]"
-show_info "Example: llamafile Qwen  # Will find and run Qwen*.llamafile"
+echo -e "Usage: ${WHITE}llamafile [pattern]${NC}"
+echo -e "Example: ${WHITE}llamafile Qwen${NC}  # Will find and run Qwen*.llamafile"
 echo
-show_info "Place your .llamafile models in: $MODELS_DIR"
+echo -e "Place your .llamafile models in: ${YELLOW}$MODELS_DIR${NC}"

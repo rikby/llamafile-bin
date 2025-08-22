@@ -4,6 +4,9 @@
 # Models directory - users should manage their own model files
 models/*.llamafile
 
+# Configuration file (generated during install)
+config.sh
+
 # Claude Code configuration
 .claude/
 

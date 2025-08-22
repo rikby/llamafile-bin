@@ -112,7 +112,7 @@ llamafile phi --chat
 ## Requirements
 
 - **bash** or **zsh** shell - The scripts are compatible with both
-- **fzf** - For interactive file selection
+- **fzf** - For enhanced interactive file selection (optional but recommended)
   ```bash
   # Install via homebrew (macOS)
   brew install fzf
@@ -123,6 +123,8 @@ llamafile phi --chat
   # Install via yum (RHEL/CentOS)
   sudo yum install fzf
   ```
+  
+  **Note:** If fzf is not installed, the script will fallback to a simple numbered list for selection.
 
 ## How It Works
 
@@ -143,7 +145,7 @@ llamafile phi --chat
 
 The script provides helpful error messages for common issues:
 
-- **No fzf installed**: `Error: fzf is not installed. Please install it to use this script.`
+- **fzf not installed**: Falls back to numbered list selection
 - **No matches found**: `Error: No llamafile found matching 'pattern'.`
 - **Not executable**: `Error: File 'filename' is not executable. Please run 'chmod +x "filename"'.`
 

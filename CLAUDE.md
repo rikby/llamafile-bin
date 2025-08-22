@@ -89,3 +89,4 @@ The installation follows a specific pattern:
 5. Provides user feedback and next steps
 
 This remote-download approach means the local repository version may differ from what gets installed, which is important for testing.
+- Shell script must be compatible with zsh and bash shell

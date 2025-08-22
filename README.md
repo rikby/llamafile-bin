@@ -13,17 +13,30 @@ A simple bash script to easily find and run llamafile models with fuzzy matching
 
 ## Installation
 
-1. Clone or download the scripts to your desired location
-2. Run the installation script:
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/rikby/llamafile-bin.git
+   cd llamafile-bin
+   ```
 
-```bash
-./install.sh
-```
+2. Run the installation script:
+   ```bash
+   ./install.sh
+   ```
 
 This will:
 - Create a symlink at `~/bin/llamafile`
 - Make the scripts executable
 - Provide PATH setup instructions
+
+3. **Add your llamafile models** to the `models/` directory:
+   ```bash
+   # Download or copy your .llamafile files to the models directory
+   cp /path/to/your/model.llamafile models/
+   
+   # Make sure they're executable
+   chmod +x models/*.llamafile
+   ```
 
 ### PATH Setup
 
@@ -69,13 +82,17 @@ llamafile phi --chat
 ## File Structure
 
 ```
-llamafile/
-├── llamafile.sh    # Main script
-├── install.sh      # Installation script
-├── README.md       # This file
-└── models/         # Directory for .llamafile files
-    └── *.llamafile
+llamafile-bin/
+├── .gitignore       # Git ignore file
+├── llamafile.sh     # Main script
+├── install.sh       # Installation script
+├── README.md        # This file
+└── models/          # Directory for your .llamafile files
+    ├── .gitkeep     # Keeps directory in git
+    └── (your .llamafile files go here)
 ```
+
+**Note:** The `models/` directory is excluded from git to avoid committing large binary files. You need to add your own `.llamafile` model files after cloning.
 
 ## Requirements
 
@@ -114,17 +131,36 @@ The script provides helpful error messages for common issues:
 - **No matches found**: `Error: No llamafile found matching 'pattern'.`
 - **Not executable**: `Error: File 'filename' is not executable. Please run 'chmod +x "filename"'.`
 
+## Getting Models
+
+You can download llamafile models from various sources:
+
+- [Hugging Face](https://huggingface.co/models?other=llamafile) - Search for models with "llamafile" tag
+- [Mozilla's llamafile releases](https://github.com/Mozilla-Ocho/llamafile/releases) - Pre-built models
+- Convert your own GGUF models using llamafile tools
+
+Popular models to try:
+- **Qwen2.5-7B-Instruct** - Great general purpose model
+- **Llama-3.1-8B-Instruct** - Strong instruction following
+- **Phi-3-mini** - Lightweight and fast
+
 ## Troubleshooting
 
 ### File not executable
 ```bash
-chmod +x path/to/your/model.llamafile
+chmod +x models/your-model.llamafile
 ```
 
 ### Script not in PATH
 Make sure `~/bin` is in your PATH:
 ```bash
 echo $PATH | grep "$HOME/bin"
+```
+
+### No models found
+Make sure you have `.llamafile` files in the `models/` directory:
+```bash
+ls -la models/
 ```
 
 ### fzf not found

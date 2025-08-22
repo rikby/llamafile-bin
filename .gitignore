@@ -1,0 +1,39 @@
+# Llamafile binaries
+*.llamafile
+
+# Models directory - users should manage their own model files
+models/*.llamafile
+
+# Claude Code configuration
+.claude/
+
+# System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+*~
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.sublime-*
+
+# OS generated files
+*.pid
+*.seed
+*.pid.lock
+
+# Runtime files
+node_modules/
+npm-debug.log*

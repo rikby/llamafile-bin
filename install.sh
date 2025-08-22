@@ -23,14 +23,38 @@ show_info() {
     echo -e "${BLUE}$1${NC}"
 }
 
-# Get the directory where this script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-LLAMAFILE_SCRIPT="$SCRIPT_DIR/llamafile.sh"
+# Use XDG_CONFIG_HOME if set, otherwise default to ~/.config
+CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+LLAMAFILE_CONFIG_DIR="$CONFIG_HOME/llamafile"
 
-# Check if llamafile.sh exists
-if [ ! -f "$LLAMAFILE_SCRIPT" ]; then
-    show_error "llamafile.sh not found in $SCRIPT_DIR"
+# Create llamafile config directory if it doesn't exist
+if [ ! -d "$LLAMAFILE_CONFIG_DIR" ]; then
+    show_info "Creating $LLAMAFILE_CONFIG_DIR directory..."
+    mkdir -p "$LLAMAFILE_CONFIG_DIR" || show_error "Failed to create $LLAMAFILE_CONFIG_DIR directory"
 fi
+
+# Create models directory
+MODELS_DIR="$LLAMAFILE_CONFIG_DIR/models"
+if [ ! -d "$MODELS_DIR" ]; then
+    show_info "Creating $MODELS_DIR directory..."
+    mkdir -p "$MODELS_DIR" || show_error "Failed to create $MODELS_DIR directory"
+fi
+
+# Download llamafile.sh from GitHub
+LLAMAFILE_SCRIPT="$LLAMAFILE_CONFIG_DIR/llamafile.sh"
+show_info "Downloading llamafile.sh from GitHub..."
+curl -L -o "$LLAMAFILE_SCRIPT" "https://raw.githubusercontent.com/rikby/llamafile-bin/main/llamafile.sh" || show_error "Failed to download llamafile.sh"
+
+# Create config.sh
+CONFIG_SCRIPT="$LLAMAFILE_CONFIG_DIR/config.sh"
+show_info "Creating config.sh..."
+cat > "$CONFIG_SCRIPT" << EOF
+#!/bin/bash
+# Llamafile configuration
+
+# Directory where llamafile models are stored
+MODELS_DIR="$MODELS_DIR"
+EOF
 
 # Create ~/bin directory if it doesn't exist
 BIN_DIR="$HOME/bin"
@@ -56,6 +80,8 @@ ln -s "$LLAMAFILE_SCRIPT" "$SYMLINK_PATH" || show_error "Failed to create symlin
 
 show_success "Successfully installed llamafile script!"
 echo
+show_info "Configuration directory: $LLAMAFILE_CONFIG_DIR"
+show_info "Models directory: $MODELS_DIR"
 show_info "Symlink created: $SYMLINK_PATH -> $LLAMAFILE_SCRIPT"
 echo
 echo -e "${YELLOW}Note: Make sure $BIN_DIR is in your PATH environment variable.${NC}"
@@ -64,3 +90,5 @@ echo -e "${YELLOW}export PATH=\"\$HOME/bin:\$PATH\"${NC}"
 echo
 show_info "Usage: llamafile [pattern]"
 show_info "Example: llamafile Qwen  # Will find and run Qwen*.llamafile"
+echo
+show_info "Place your .llamafile models in: $MODELS_DIR"

@@ -13,13 +13,24 @@ show_error() {
     exit 1
 }
 
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/config.sh"
+
+# Load configuration
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    show_error "Configuration file not found at $CONFIG_FILE"
+fi
+
 # Check if fzf is installed
 if ! command -v fzf &> /dev/null; then
     show_error "fzf is not installed. Please install it to use this script."
 fi
 
-# Search directories (current directory and models subdirectory)
-SEARCH_DIRS=("." "models")
+# Search directories (current directory and models directory from config)
+SEARCH_DIRS=("." "$MODELS_DIR")
 
 # Function to find llamafiles
 find_llamafiles() {
